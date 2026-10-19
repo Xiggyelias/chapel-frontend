@@ -1,0 +1,11 @@
+{
+  "$schema": "https://dokploy.com/schema.json",
+  "name": "kwanglim-chapel-frontend",
+  "description": "Frontend UI Client and Asset Service for Kwang-Lim Chapel - Africa University",
+  "buildType": "dockerfile",
+  "dockerfilePath": "./Dockerfile",
+  "dockerContextPath": ".",
+  "port": 80,
+  "healthCheckPath": "/healthz",
+  "restartPolicy": "unless-stopped"
+}
