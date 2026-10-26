@@ -6,8 +6,8 @@ export default defineConfig({
         tailwindcss(),
     ],
     build: {
-        outDir: '../public/build',
-        emptyOutDir: false,
+        outDir: 'dist',
+        emptyOutDir: true,
         rollupOptions: {
             input: {
                 app: 'js/app.js',
