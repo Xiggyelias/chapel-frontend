@@ -27,6 +27,10 @@ LABEL description="Dokploy Ready Frontend Client for Kwang-Lim Chapel Portal"
 # Copy custom Nginx web server config
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 
+# Copy entrypoint script for dynamic BACKEND_URL substitution
+COPY entrypoint.sh /usr/local/bin/entrypoint.sh
+RUN chmod +x /usr/local/bin/entrypoint.sh
+
 # Copy compiled frontend assets to /usr/share/nginx/html/build
 COPY --from=build /app/dist /usr/share/nginx/html/build
 
@@ -45,5 +49,7 @@ EXPOSE 80
 
 HEALTHCHECK --interval=30s --timeout=5s --start-period=5s --retries=3 \
     CMD wget --quiet --tries=1 --spider http://127.0.0.1:80/healthz || exit 1
+
+ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
 
 CMD ["nginx", "-g", "daemon off;"]
