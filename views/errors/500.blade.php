@@ -25,11 +25,21 @@
             <p class="text-xs text-slate-500 mt-2 leading-relaxed">
                 An unexpected error occurred while processing your request. Please return to the dashboard or try again in a few moments.
             </p>
+
+            @if(config('app.debug') && isset($exception))
+                <div class="mt-4 p-3 bg-red-50 border border-red-200 text-red-800 text-left text-xs font-mono rounded-xl overflow-x-auto max-h-48 whitespace-pre-wrap">
+                    <div class="font-bold">Error: {{ $exception->getMessage() }}</div>
+                    <div class="text-[10px] text-red-600 mt-1">File: {{ $exception->getFile() }}:{{ $exception->getLine() }}</div>
+                </div>
+            @endif
         </div>
 
-        <div class="pt-2">
-            <a href="{{ route('dashboard') }}" class="inline-flex items-center space-x-2 px-6 py-2.5 rounded-xl bg-[#DC2626] hover:bg-[#B91C1C] text-white text-xs font-bold uppercase tracking-wider shadow-sm transition active:scale-95">
-                <span>Return to Dashboard</span>
+        <div class="pt-2 flex items-center justify-center space-x-3">
+            <a href="{{ route('login') }}" class="inline-flex items-center space-x-2 px-5 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-900 text-white text-xs font-bold uppercase tracking-wider shadow-sm transition active:scale-95">
+                <span>Sign In</span>
+            </a>
+            <a href="{{ route('dashboard') }}" class="inline-flex items-center space-x-2 px-5 py-2.5 rounded-xl bg-[#DC2626] hover:bg-[#B91C1C] text-white text-xs font-bold uppercase tracking-wider shadow-sm transition active:scale-95">
+                <span>Dashboard</span>
                 <svg class="w-4 h-4 stroke-[2.5]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
             </a>
         </div>
