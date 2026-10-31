@@ -1,94 +1,16 @@
-# Kwang-Lim Chapel - Frontend Client
-**Africa University Chaplaincy Office &bull; Mutare, Zimbabwe**
+# chapel-frontend (retired)
 
-Standalone frontend client and UI asset service for the Kwang-Lim Chapel Management Portal. Dokploy ready with multi-stage Docker build and production Nginx server.
+**This repository is no longer part of the Kwang-Lim Chapel portal.**
 
----
+The portal is a server-rendered Laravel application: every page, script, stylesheet and PWA file is built and served by **[chapel-backend](https://github.com/Xiggyelias/chapel-backend)**, which deploys as a single Dokploy application. This repository only ever ran an nginx reverse proxy in front of it; its copies of the views and assets were never executed.
 
-## 🚀 Features
+## What is left here
+A minimal pass-through proxy (`Dockerfile`, `nginx.conf`, `entrypoint.sh`, `offline.html`) so an existing Dokploy application built from this repository keeps working during the cutover. It forwards every request to `BACKEND_URL`.
 
-- **Tailwind CSS v4 & Plus Jakarta Sans**: AU Crimson (`#DC2626`), Slate (`#0F172A`), and Gold (`#D4AF37`) color palette.
-- **Top Navigation Bar**: Horizontal header layout with official UMC Cross & Flame branding, active route pills, and dropdown navigation.
-- **Accessibility & Inclusion (WCAG AAA)**: High-contrast mode, +12% enlarged typography scaling, and dynamic English / ChiShona language switcher.
-- **PWA Ready**: Offline caching, service worker (`sw.js`), web manifest, and custom app icons.
-- **Dokploy Ready**: Native `dokploy.json`, multi-stage `Dockerfile`, and `docker-compose.yml` with `/healthz` healthchecks.
+## Cutover steps
+1. In Dokploy, open the **chapel-backend** application and attach the public domain to it (HTTPS on).
+2. Confirm the portal loads from that domain.
+3. Stop and delete the **chapel-frontend** application in Dokploy.
+4. Archive or delete this repository (GitHub → Settings → Danger Zone).
 
----
-
-## 📁 Directory Structure
-
-```text
-frontend/
-├── assets/                  # UMC Cross & Flame logo, favicon, PWA manifest, service worker
-│   ├── umc-logo.svg         # Official United Methodist insignia
-│   ├── favicon.svg          # High-resolution SVG favicon
-│   ├── manifest.json        # PWA application manifest
-│   ├── sw.js                # Service Worker for offline caching
-│   └── offline.html         # Low-bandwidth offline fallback page
-├── css/                     # Tailwind CSS v4 styling & color definitions
-│   └── app.css              # Africa University styling rules
-├── js/                      # Modular JavaScript
-│   ├── app.js               # Client entry point
-│   ├── bootstrap.js         # Axios & CSRF HTTP interceptors
-│   └── modules/             # UI interaction modules
-│       ├── command-palette.js # Quick Command Palette (Ctrl + K)
-│       └── accessibility.js # High Contrast & Shona language toggle
-├── views/                   # Server-rendered Blade views & UI components
-├── nginx.conf               # Production Nginx reverse proxy & static file server
-├── Dockerfile               # Multi-stage Docker build (Node.js -> Nginx Alpine)
-├── docker-compose.yml       # Dokploy compose deployment specification
-├── dokploy.json             # Dokploy application configuration
-├── package.json             # Frontend dependency manifest
-└── vite.config.js           # Vite bundle configuration
-```
-
----
-
-## 🐳 Dokploy Deployment Guide
-
-### Option 1: Deploy via Dokploy GUI (GitHub Repository)
-1. In Dokploy, click **Create Application**.
-2. Select **GitHub** and connect your frontend repository (`kwanglim-chapel-frontend`).
-3. Set **Build Type**: `Dockerfile`.
-4. Set **Port**: `80`.
-5. Set **Health Check Path**: `/healthz`.
-6. Add Environment Variable:
-   ```env
-   BACKEND_URL=http://backend:80
-   ```
-7. Click **Deploy**.
-
-### Option 2: Deploy via Docker Compose
-1. In Dokploy, click **Create Compose**.
-2. Paste the contents of `docker-compose.yml`.
-3. Click **Deploy**.
-
----
-
-## 🛠️ Local Development
-
-```bash
-# Install dependencies
-npm install
-
-# Start Vite development server
-npm run dev
-
-# Build production assets
-npm run build
-```
-
----
-
-## 📦 GitHub Repository Setup
-
-To push this frontend service to GitHub:
-
-```bash
-cd frontend
-git init -b main
-git add .
-git commit -m "feat: complete Dokploy-ready frontend client for Kwang-Lim Chapel"
-git remote add origin https://github.com/<YOUR-GITHUB-USERNAME>/kwanglim-chapel-frontend.git
-git push -u origin main
-```
+The full application history of the old frontend copies remains in this repository's git history.
